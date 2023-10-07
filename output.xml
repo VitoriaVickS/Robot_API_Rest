@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 6.1.1 (Python 3.11.5 on win32)" generated="20231006 23:46:27.887" rpa="false" schemaversion="4">
+<suite id="s1" name="Api Testing Usuários" source="c:\ApiTesting\Tests\Api_Testing_Usuários.Robot">
+<test id="s1-t1" name="Cenário 01: Cadastrar um novo usuário com sucesso na ServeRest" line="11">
+<kw name=" Criar um usuário novo" library="Api_Testing_Usuários">
+<kw name="Generate Random String" library="String">
+<var>${Palavra_Aleatória}</var>
+<arg>length=4</arg>
+<arg>chars=[LETTERS]</arg>
+<doc>Generates a string with a desired ``length`` from the given ``chars``.</doc>
+<msg timestamp="20231006 23:46:28.075" level="INFO">${Palavra_Aleatória} = HTUi</msg>
+<status status="PASS" starttime="20231006 23:46:28.074" endtime="20231006 23:46:28.080"/>
+</kw>
+<kw name="Convert To Lower Case" library="String">
+<var>${Palavra_Aleatória}</var>
+<arg>${Palavra_Aleatória}</arg>
+<doc>Converts string to lower case.</doc>
+<msg timestamp="20231006 23:46:28.082" level="INFO">${Palavra_Aleatória} = htui</msg>
+<status status="PASS" starttime="20231006 23:46:28.081" endtime="20231006 23:46:28.082"/>
+</kw>
+<kw name="Set Test Variable" library="BuiltIn">
+<arg>${EMAIL_TESTE}</arg>
+<arg>${Palavra_Aleatória}@emailteste.com</arg>
+<doc>Makes a variable available everywhere within the scope of the current test.</doc>
+<msg timestamp="20231006 23:46:28.084" level="INFO">${EMAIL_TESTE} = htui@emailteste.com</msg>
+<status status="PASS" starttime="20231006 23:46:28.083" endtime="20231006 23:46:28.085"/>
+</kw>
+<kw name="Log" library="BuiltIn">
+<arg>${EMAIL_TESTE}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20231006 23:46:28.086" level="INFO">htui@emailteste.com</msg>
+<status status="PASS" starttime="20231006 23:46:28.085" endtime="20231006 23:46:28.087"/>
+</kw>
+<status status="PASS" starttime="20231006 23:46:28.073" endtime="20231006 23:46:28.087"/>
+</kw>
+<kw name="Cadastrar o usuário criado na ServeRest" library="Api_Testing_Usuários">
+<kw name="Create Dictionary" library="BuiltIn">
+<var>${Body}</var>
+<arg>nome=Fulano da Silva</arg>
+<arg>email=${EMAIL_TESTE}</arg>
+<arg>password=1234</arg>
+<arg>administrador=true</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20231006 23:46:28.090" level="INFO">${Body} = {'nome': 'Fulano da Silva', 'email': 'htui@emailteste.com', 'password': '1234', 'administrador': 'true'}</msg>
+<status status="PASS" starttime="20231006 23:46:28.089" endtime="20231006 23:46:28.090"/>
+</kw>
+<kw name="Log" library="BuiltIn">
+<arg>${Body}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20231006 23:46:28.091" level="INFO">{'nome': 'Fulano da Silva', 'email': 'htui@emailteste.com', 'password': '1234', 'administrador': 'true'}</msg>
+<status status="PASS" starttime="20231006 23:46:28.090" endtime="20231006 23:46:28.091"/>
+</kw>
+<kw name="Criar Sessão na ServeRest" library="Api_Testing_Usuários">
+<kw name="Create Dictionary" library="BuiltIn">
+<var>${Headers}</var>
+<arg>accept=application/json</arg>
+<arg>Content-Type=application/json</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20231006 23:46:28.093" level="INFO">${Headers} = {'accept': 'application/json', 'Content-Type': 'application/json'}</msg>
+<status status="PASS" starttime="20231006 23:46:28.093" endtime="20231006 23:46:28.094"/>
+</kw>
+<kw name="Create Session" library="RequestsLibrary">
+<arg>alias=ServeRest</arg>
+<arg>url=https://serverest.dev</arg>
+<arg>headers= ${Headers}</arg>
+<doc>Create Session: create a HTTP session to a server</doc>
+<msg timestamp="20231006 23:46:28.095" level="INFO">Creating Session using : alias=ServeRest, url=https://serverest.dev, headers={'accept': 'application/json', 'Content-Type': 'application/json'},                     cookies={}, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<status status="PASS" starttime="20231006 23:46:28.094" endtime="20231006 23:46:28.096"/>
+</kw>
+<status status="PASS" starttime="20231006 23:46:28.092" endtime="20231006 23:46:28.096"/>
+</kw>
+<kw name="POST On Session" library="RequestsLibrary">
+<var>${Resposta}</var>
+<arg>alias=ServeRest</arg>
+<arg>url=/usuarios</arg>
+<arg>json=${Body}</arg>
+<doc>Sends a POST request on a previously created HTTP Session.</doc>
+<msg timestamp="20231006 23:46:28.480" level="INFO">POST Request : url=https://serverest.dev/usuarios 
+ path_url=/usuarios 
+ headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate', 'accept': 'application/json', 'Connection': 'keep-alive', 'Content-Type': 'application/json', 'Content-Length': '104'} 
+ body=b'{"nome": "Fulano da Silva", "email": "htui@emailteste.com", "password": "1234", "administrador": "true"}' 
+ </msg>
+<msg timestamp="20231006 23:46:28.481" level="INFO">POST Response : url=https://serverest.dev/usuarios 
+ status=201, reason=Created 
+ headers={'access-control-allow-origin': '*', 'x-dns-prefetch-control': 'off', 'x-frame-options': 'SAMEORIGIN', 'strict-transport-security': 'max-age=15552000; includeSubDomains', 'x-download-options': 'noopen', 'x-content-type-options': 'nosniff', 'x-xss-protection': '1; mode=block', 'content-type': 'application/json; charset=utf-8', 'X-Cloud-Trace-Context': '440dd8fdb67c5d67a2149d4952aab703;o=1', 'Date': 'Sat, 07 Oct 2023 02:46:27 GMT', 'Server': 'Google Frontend', 'Content-Length': '82'} 
+ body={
+    "message": "Cadastro realizado com sucesso",
+    "_id": "1BNYrKr2gZI6OrpO"
+} 
+ </msg>
+<msg timestamp="20231006 23:46:28.481" level="INFO">C:\Users\vitor\AppData\Local\Programs\Python\Python311\Lib\site-packages\urllib3\connectionpool.py:1095: InsecureRequestWarning: Unverified HTTPS request is being made to host 'serverest.dev'. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#tls-warnings
+  warnings.warn(</msg>
+<msg timestamp="20231006 23:46:28.483" level="INFO">${Resposta} = &lt;Response [201]&gt;</msg>
+<status status="PASS" starttime="20231006 23:46:28.096" endtime="20231006 23:46:28.483"/>
+</kw>
+<kw name="Log" library="BuiltIn">
+<arg>${Resposta.json()}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20231006 23:46:28.487" level="INFO">{'message': 'Cadastro realizado com sucesso', '_id': '1BNYrKr2gZI6OrpO'}</msg>
+<status status="PASS" starttime="20231006 23:46:28.484" endtime="20231006 23:46:28.488"/>
+</kw>
+<kw name="Set Test Variable" library="BuiltIn">
+<arg>${RESPOSTA}</arg>
+<arg>${Resposta.json()}</arg>
+<doc>Makes a variable available everywhere within the scope of the current test.</doc>
+<msg timestamp="20231006 23:46:28.491" level="INFO">${RESPOSTA} = {'message': 'Cadastro realizado com sucesso', '_id': '1BNYrKr2gZI6OrpO'}</msg>
+<status status="PASS" starttime="20231006 23:46:28.489" endtime="20231006 23:46:28.492"/>
+</kw>
+<status status="PASS" starttime="20231006 23:46:28.088" endtime="20231006 23:46:28.493"/>
+</kw>
+<kw name="Conferir se o usuário foi cadastrado corretamente" library="Api_Testing_Usuários">
+<kw name="Log" library="BuiltIn">
+<arg>${RESPOSTA}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20231006 23:46:28.497" level="INFO">{'message': 'Cadastro realizado com sucesso', '_id': '1BNYrKr2gZI6OrpO'}</msg>
+<status status="PASS" starttime="20231006 23:46:28.496" endtime="20231006 23:46:28.497"/>
+</kw>
+<kw name="Dictionary Should Contain Item" library="Collections">
+<arg>${RESPOSTA}</arg>
+<arg>message</arg>
+<arg>Cadastro realizado com sucesso</arg>
+<doc>An item of ``key`` / ``value`` must be found in a ``dictionary``.</doc>
+<status status="PASS" starttime="20231006 23:46:28.498" endtime="20231006 23:46:28.499"/>
+</kw>
+<kw name="Dictionary Should Contain Key" library="Collections">
+<arg>${RESPOSTA}</arg>
+<arg>_id</arg>
+<doc>Fails if ``key`` is not found from ``dictionary``.</doc>
+<status status="PASS" starttime="20231006 23:46:28.500" endtime="20231006 23:46:28.501"/>
+</kw>
+<status status="PASS" starttime="20231006 23:46:28.494" endtime="20231006 23:46:28.502"/>
+</kw>
+<status status="PASS" starttime="20231006 23:46:28.072" endtime="20231006 23:46:28.503"/>
+</test>
+<status status="PASS" starttime="20231006 23:46:27.894" endtime="20231006 23:46:28.506"/>
+</suite>
+<statistics>
+<total>
+<stat pass="1" fail="0" skip="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat pass="1" fail="0" skip="0" id="s1" name="Api Testing Usuários">Api Testing Usuários</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>
